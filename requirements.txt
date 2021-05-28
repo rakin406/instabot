@@ -3,3 +3,4 @@
 # pip3 install -r requirements.txt
 
 selenium==3.141.0
+ChatterBot==1.0.8
