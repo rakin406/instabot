@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 """
-Rakin is the name of the author of this program.
+This is an Artificial Intelligence chatbot which talks with people on Instagram.
+I call it "Rakin".
 Usage: ./rakin.py <instagram>
 """
 
 import sys
-import random
 from instabot import Instabot
+from chatterbot import ChatBot
+from chatterbot.trainers import ChatterBotCorpusTrainer
 
 ARGS = len(sys.argv) - 1
 if ARGS == 0:
@@ -15,24 +17,23 @@ if ARGS == 0:
 
 bot = Instabot()
 bot.find_person(sys.argv[1])
-bot.text_person(
-    "Yo. I am Rakin's chatbot. I'll try to act like him as much as possible.\
-            Commands: \"yo\"."
-)
+bot.text_person("Hi, I am Rakin's chatbot. I talk like a human but dumb at most times.")
 
-GREETINGS = ["sup", "yo"]
-ANSWERS = ["Ask that to Rakin, not me", "do i look smart to u? lol"]
-command_triggered = 0
+chatbot = ChatBot("Rakin")
+trainer = ChatterBotCorpusTrainer(chatbot)
+trainer.train("chatterbot.corpus.english")
+
+prev_msg = ""
+prev_bot_msg = ""
 
 while True:
     message = bot.get_message()
-    if str(message).endswith("?"):
-        bot.text_person(random.choice(ANSWERS))
-    elif message == "yo":
-        if command_triggered < 5:
-            bot.text_person(random.choice(GREETINGS))
-        elif command_triggered == 5:
-            bot.text_person(random.choice(["bruh", "lol"]))
-        else:
-            bot.text_person("SUP SUP SUP SUP SUP SUP SUP SUP SUP")
-        command_triggered += 1
+    bot_message = chatbot.get_response(message)
+
+    # Message must not be the same as last message and it should not be from
+    # the chatbot.
+    if message != prev_msg and message != prev_bot_msg:
+        bot.text_person(bot_message)
+
+    prev_msg = message
+    prev_bot_msg = bot_message
