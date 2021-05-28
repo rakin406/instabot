@@ -53,7 +53,7 @@ class Instabot:
                     (By.XPATH, "//*[contains(text(), '{}')]".format(username))
                 )
             )
-        except:
+        except Exception:
             # Too slow internet connection
             pass
         person.click()
@@ -73,7 +73,7 @@ class Instabot:
         try:
             message = self.driver.find_elements_by_tag_name("span")[-1].text
             return message
-        except:
+        except Exception:
             pass
         return None
 
