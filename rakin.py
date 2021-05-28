@@ -26,7 +26,7 @@ command_triggered = 0
 
 while True:
     message = bot.get_message()
-    if message.endswith("?"):
+    if str(message).endswith("?"):
         bot.text_person(random.choice(ANSWERS))
     elif message == "yo":
         if command_triggered < 5:
