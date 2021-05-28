@@ -7,9 +7,16 @@ from selenium.webdriver.common.keys import Keys
 
 
 class Instabot:
+    """
+    Instagram chatbot
+    """
+
     def __init__(self):
+        # Run headless profiled browser
+        self.options = Options()
+        self.options.headless = True
         self.driver = webdriver.Firefox(
-            webdriver.FirefoxProfile(self.__get_profile_path())
+            webdriver.FirefoxProfile(self.__get_profile_path()), options=self.options
         )
         self.driver.get("https://www.instagram.com/direct/inbox/")
 
@@ -28,12 +35,12 @@ class Instabot:
         # Run headless browser
         options = Options()
         options.headless = True
-        driver = webdriver.Firefox(options=options)
+        unprofiled_driver = webdriver.Firefox(options=options)
 
-        driver.get("about:profiles")
-        profile = driver.find_elements_by_tag_name("td")[1].text
+        unprofiled_driver.get("about:profiles")
+        profile = unprofiled_driver.find_elements_by_tag_name("td")[1].text
         profile = self.__rchop(profile, "Open Directory")
-        driver.quit()
+        unprofiled_driver.quit()
         return profile
 
     def find_person(self, username: str):
@@ -69,3 +76,9 @@ class Instabot:
         except:
             pass
         return None
+
+    def stop(self):
+        """
+        Terminate the bot.
+        """
+        self.driver.quit()

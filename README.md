@@ -1,2 +1,2 @@
 # instabot
-Instagram bot for my personal use
+Instagram chatbot for my personal use.
