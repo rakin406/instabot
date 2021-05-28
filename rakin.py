@@ -1,25 +1,38 @@
 #!/usr/bin/env python3
 """
-Usage: ./cli.py <instagram>
+Rakin is the name of the author of this program.
+Usage: ./rakin.py <instagram>
 """
 
 import sys
+import random
 from instabot import Instabot
 
 ARGS = len(sys.argv) - 1
 if ARGS == 0:
-    print("Usage: ./cli.py <instagram>")
+    print("Usage: ./rakin.py <instagram>")
     sys.exit(1)
 
 bot = Instabot()
 bot.find_person(sys.argv[1])
 bot.text_person(
-    "Yo. I am Rakin's chatbot. I'll try to act like Rakin as much as possible.\
-            You can start using me by saying \"start\".".format(
-        sys.argv[1]
-    )
+    "Yo. I am Rakin's chatbot. I'll try to act like him as much as possible.\
+            Commands: \"yo\"."
 )
 
+GREETINGS = ["sup", "yo"]
+ANSWERS = ["Ask that to Rakin, not me", "do i look smart to u? lol"]
+command_triggered = 0
+
 while True:
-    if bot.get_message() == "start":
-        bot.text_person("Hello {} :)".format(sys.argv[1]))
+    message = bot.get_message()
+    if message.endswith("?"):
+        bot.text_person(random.choice(ANSWERS))
+    elif message == "yo":
+        if command_triggered < 5:
+            bot.text_person(random.choice(GREETINGS))
+        elif command_triggered == 5:
+            bot.text_person(random.choice(["bruh", "lol"]))
+        else:
+            bot.text_person("SUP SUP SUP SUP SUP SUP SUP SUP SUP")
+        command_triggered += 1
