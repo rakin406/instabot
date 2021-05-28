@@ -14,7 +14,8 @@ if ARGS == 0:
 bot = Instabot()
 bot.find_person(sys.argv[1])
 bot.text_person(
-    'Hello {}. This program is written by Rakin. You can start using me by saying "start".'.format(
+    "Yo. I am Rakin's chatbot. I'll try to act like Rakin as much as possible.\
+            You can start using me by saying \"start\".".format(
         sys.argv[1]
     )
 )
