@@ -18,17 +18,18 @@ if ARGS == 0:
     print("Usage: ./rakin.py <instagram>")
     sys.exit(1)
 
+prev_msg = (
+    prev_bot_msg
+) = "Hi, I am Rakin's chatbot. I talk like a human but dumb at most times."
+
 bot = Instabot()
 bot.find_person(sys.argv[1])
 print("Opened chat.")
-bot.text_person("Hi, I am Rakin's chatbot. I talk like a human but dumb at most times.")
+bot.text_person(prev_bot_msg)
 
 chatbot = ChatBot("Rakin")
 trainer = ChatterBotCorpusTrainer(chatbot)
 trainer.train("chatterbot.corpus.english")
-
-prev_msg = ""
-prev_bot_msg = ""
 
 while True:
     message = bot.get_message()
