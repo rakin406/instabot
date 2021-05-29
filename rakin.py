@@ -12,6 +12,9 @@ from chatterbot.trainers import ChatterBotCorpusTrainer
 
 ARGS = len(sys.argv) - 1
 if ARGS == 0:
+    print(
+        "This is an Artificial Intelligence chatbot which talks with people on Instagram."
+    )
     print("Usage: ./rakin.py <instagram>")
     sys.exit(1)
 
