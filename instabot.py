@@ -13,12 +13,12 @@ class Instabot:
 
     def __init__(self):
         # Run headless profiled browser
-        self.options = Options()
-        self.options.headless = True
-        self.driver = webdriver.Firefox(
-            webdriver.FirefoxProfile(self.__get_profile_path()), options=self.options
+        self.__options = Options()
+        self.__options.headless = True
+        self.__driver = webdriver.Firefox(
+            webdriver.FirefoxProfile(self.__get_profile_path()), options=self.__options
         )
-        self.driver.get("https://www.instagram.com/direct/inbox/")
+        self.__driver.get("https://www.instagram.com/direct/inbox/")
 
     def __rchop(self, s: str, suffix: str) -> str:
         """
@@ -48,7 +48,7 @@ class Instabot:
         Find and click the person.
         """
         try:
-            person = WebDriverWait(self.driver, 10).until(
+            person = WebDriverWait(self.__driver, 10).until(
                 EC.presence_of_element_located(
                     (By.XPATH, "//*[contains(text(), '{}')]".format(username))
                 )
@@ -62,7 +62,7 @@ class Instabot:
         """
         Text the person on instagram.
         """
-        input_area = self.driver.find_element_by_tag_name("textarea")
+        input_area = self.__driver.find_element_by_tag_name("textarea")
         input_area.send_keys(text)
         input_area.send_keys(Keys.RETURN)
 
@@ -71,7 +71,7 @@ class Instabot:
         Get the person's last message.
         """
         try:
-            message = self.driver.find_elements_by_tag_name("span")[-1].text
+            message = self.__driver.find_elements_by_tag_name("span")[-1].text
             return message
         except Exception:
             pass
@@ -81,4 +81,4 @@ class Instabot:
         """
         Terminate the bot.
         """
-        self.driver.quit()
+        self.__driver.quit()
