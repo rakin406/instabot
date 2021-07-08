@@ -18,9 +18,7 @@ if ARGS == 0:
     print("Usage: ./rakin.py <instagram>")
     sys.exit(1)
 
-prev_msg = (
-    prev_bot_msg
-) = "Hi, I am Rakin's chatbot. I talk like a human but dumb at most times."
+prev_msg = prev_bot_msg = "Hi, I am Rakin's chatbot."
 
 bot = Instabot()
 bot.find_person(sys.argv[1])
