@@ -21,7 +21,7 @@ if ARGS == 0:
 prev_msg = prev_bot_msg = "Hi, I am Rakin's chatbot."
 
 bot = Instabot()
-bot.find_person(sys.argv[1])
+bot.find_person(' '.join(sys.argv[1:]))
 print("Opened chat.")
 bot.text_person(prev_bot_msg)
 
