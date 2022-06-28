@@ -4,11 +4,11 @@ Instagram chatbot for my personal use.
 Requirements:
 
 1. Python installed(obviously)
-2. Firefox and geckodriver
+2. Firefox and Geckodriver
 
-Firefox must have logged in instagram account or else the program won't work.
-I could add an option to manually log in to instagram account but I don't
-personally use it.
+Firefox must have logged in Instagram account or else the program won't work.
+I could add an option to manually log in to Instagram account but I don't
+personally use it as it's slow.
 
 rakin.py is the AI chatbot.
 
