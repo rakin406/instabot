@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.7
 """
 This is an Artificial Intelligence chatbot which talks with people on Instagram.
 I call it "Rakin".
