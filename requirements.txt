@@ -1,6 +1,8 @@
 # These libraries are needed to make the program work.
 # Run this in terminal:
 # pip3 install -r requirements.txt
+#               OR
+# python3.7 -m pip install -r requirements.txt
 
 selenium==3.141.0
-ChatterBot==1.0.8
+git+https://github.com/gunthercox/ChatterBot.git@master
