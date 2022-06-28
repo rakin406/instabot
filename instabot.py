@@ -1,3 +1,4 @@
+from time import sleep
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -14,11 +15,11 @@ class Instabot:
     def __init__(self):
         # Run headless profiled browser
         self.__options = Options()
-        self.__options.headless = True
+        self.__options.headless = False
         self.__driver = webdriver.Firefox(
             webdriver.FirefoxProfile(self.__get_profile_path()), options=self.__options
         )
-        self.__driver.get("https://www.instagram.com/direct/inbox/")
+
 
     def __rchop(self, s: str, suffix: str) -> str:
         """
@@ -43,20 +44,14 @@ class Instabot:
         unprofiled_driver.quit()
         return profile
 
-    def find_person(self, username: str):
+    def open_chat(self, username: str):
         """
-        Find and click the person.
+        Find person and open the chat.
         """
-        try:
-            person = WebDriverWait(self.__driver, 10).until(
-                EC.presence_of_element_located(
-                    (By.XPATH, "//*[contains(text(), '{}')]".format(username))
-                )
-            )
-        except Exception:
-            # Too slow internet connection
-            pass
-        person.click()
+        self.__driver.get("https://www.instagram.com/{}/".format(username))
+        sleep(2)
+        chat = self.__driver.find_element_by_xpath("/html/body/div[1]/div/div[1]/div/div[1]/div/div/div[1]/div[1]/section/main/div/header/section/div[1]/div[1]/div/div[1]/button/div")
+        chat.click()
 
     def text_person(self, text: str):
         """
@@ -75,7 +70,7 @@ class Instabot:
             return message
         except Exception:
             pass
-        return None
+        return ""
 
     def stop(self):
         """
