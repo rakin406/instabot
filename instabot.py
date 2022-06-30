@@ -1,3 +1,4 @@
+import os
 from time import sleep
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
@@ -11,10 +12,12 @@ class Instabot:
 
     def __init__(self):
         # Run headless profiled browser
+        self.__GECKODRIVER = os.path.abspath(os.getcwd()) + "/geckodriver"
         self.__options = Options()
         self.__options.headless = False
         self.__driver = webdriver.Firefox(
-            webdriver.FirefoxProfile(self.__get_profile_path()), options=self.__options
+            webdriver.FirefoxProfile(self.__get_profile_path()), \
+                    executable_path=self.__GECKODRIVER, options=self.__options
         )
 
 
@@ -33,7 +36,8 @@ class Instabot:
         # Run headless browser
         options = Options()
         options.headless = True
-        unprofiled_driver = webdriver.Firefox(options=options)
+        unprofiled_driver = webdriver.Firefox(executable_path=self.__GECKODRIVER, \
+                options=options)
 
         unprofiled_driver.get("about:profiles")
         profile = unprofiled_driver.find_elements_by_tag_name("td")[1].text
