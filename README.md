@@ -4,7 +4,7 @@ Instagram chatbot for my personal use.
 Requirements:
 
 1. Python-3.7
-2. Firefox and Geckodriver
+2. Firefox
 
 Firefox must have logged in Instagram account or else the program won't work.
 I could add an option to manually log in to Instagram account but I don't
