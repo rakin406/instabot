@@ -5,9 +5,9 @@ from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.keys import Keys
 
 
-class Instabot:
+class InstaChat:
     """
-    Instagram chatbot
+    Instagram chat automation
     """
 
     def __init__(self):
@@ -76,6 +76,6 @@ class Instabot:
 
     def stop(self):
         """
-        Terminate the bot.
+        Terminate InstaChat.
         """
         self.__driver.quit()
