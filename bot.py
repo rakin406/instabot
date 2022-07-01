@@ -1,12 +1,11 @@
 #!/usr/bin/env python3.7
 """
 This is an Artificial Intelligence chatbot which talks with people on Instagram.
-I call it "Rakin".
-Usage: ./rakin.py <instagram>
+Usage: ./bot.py <instagram>
 """
 
 import sys
-from instabot import Instabot
+from instachat import InstaChat
 from chatterbot import ChatBot
 from chatterbot.trainers import ChatterBotCorpusTrainer
 
@@ -15,17 +14,17 @@ if ARGS == 0:
     print(
         "This is an Artificial Intelligence chatbot which talks with people on Instagram."
     )
-    print("Usage: ./rakin.py <instagram>")
+    print("Usage: ./bot.py <instagram>")
     sys.exit(1)
 
-prev_msg = prev_bot_msg = "Hi, I am Rakin's chatbot."
+prev_msg = prev_bot_msg = "Hi, I am a chatbot."
 
-bot = Instabot()
+bot = InstaChat()
 bot.open_chat(sys.argv[1])
 print("Opened chat.")
 bot.text_person(prev_bot_msg)
 
-chatbot = ChatBot("Rakin")
+chatbot = ChatBot("User")
 trainer = ChatterBotCorpusTrainer(chatbot)
 trainer.train("chatterbot.corpus.english")
 
