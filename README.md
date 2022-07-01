@@ -10,8 +10,6 @@ Firefox must have logged in Instagram account or else the program won't work.
 I could add an option to manually log in to Instagram account but I don't
 personally use it as it's slow.
 
-rakin.py is the AI chatbot.
-
 ## Installation
 ```shell
 git clone https://github.com/rakin406/instabot.git
@@ -21,6 +19,6 @@ pip3 install -r requirements.txt
 
 ## Usage
 ```shell
-./rakin.py <instagram>
-./rakin.py rakin406
+./bot.py <instagram>
+./bot.py _chemeraku_
 ```
