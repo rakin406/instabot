@@ -22,7 +22,7 @@ prev_msg = prev_bot_msg = "Hi, I am a chatbot."
 bot = InstaChat()
 bot.open_chat(sys.argv[1])
 print("Opened chat.")
-bot.text_person(prev_bot_msg)
+bot.send_message(prev_bot_msg)
 
 chatbot = ChatBot("User")
 trainer = ChatterBotCorpusTrainer(chatbot)
@@ -36,7 +36,7 @@ try:
         # Message must not be the same as last message and it should not be from
         # the chatbot.
         if message != prev_msg and message != prev_bot_msg:
-            bot.text_person(bot_message)
+            bot.send_message(bot_message)
             prev_msg = message
             prev_bot_msg = bot_message
 except KeyboardInterrupt:

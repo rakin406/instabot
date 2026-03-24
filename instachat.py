@@ -44,23 +44,19 @@ class InstaChat:
         )
         chat.click()
 
-    def text_person(self, text: str):
+    def send_message(self, text: str):
         """
         Text the person on instagram.
         """
         input_area = self.__driver.find_element_by_tag_name("textarea")
         input_area.send_keys(text + Keys.ENTER)
 
-    def get_message(self) -> str:
+    def get_message(self) -> str | None:
         """
         Get the person's last message.
         """
-        try:
-            message = self.__driver.find_elements_by_tag_name("span")[-1].text
-            return message
-        except Exception:
-            pass
-        return ""
+        messages = self.__driver.find_elements_by_tag_name("span")
+        return messages[-1].text if messages else None
 
     def stop(self):
         """
