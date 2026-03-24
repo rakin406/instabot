@@ -1,8 +1,11 @@
-import os
-from time import sleep
+import sys
+import time
+from pathlib import Path
+
 from selenium import webdriver
-from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
 
 
 class InstaChat:
@@ -11,71 +14,67 @@ class InstaChat:
     """
 
     def __init__(self):
-        # Run headless profiled browser
-        self.__GECKODRIVER = os.path.abspath(os.getcwd()) + "/geckodriver"
-        self.__options = Options()
-        self.__options.headless = False
-        self.__driver = webdriver.Firefox(
-            webdriver.FirefoxProfile(self.__get_profile_path()), \
-                    executable_path=self.__GECKODRIVER, options=self.__options
-        )
+        # TODO: Bulletproof login.
+        self.USER_DATA_DIR = ".user-data"
 
+        has_user_data = Path(self.USER_DATA_DIR).is_dir()
 
-    def __rchop(self, s: str, suffix: str) -> str:
-        """
-        Remove last occurence of the substring.
-        """
-        if suffix and s.endswith(suffix):
-            return s[: -len(suffix)]
-        return s
+        # Create user data directory
+        Path(self.USER_DATA_DIR).mkdir(parents=True, exist_ok=True)
 
-    def __get_profile_path(self) -> str:
-        """
-        Get current Firefox profile path.
-        """
-        # Run headless browser
+        # Set Chromium options
         options = Options()
-        options.headless = True
-        unprofiled_driver = webdriver.Firefox(executable_path=self.__GECKODRIVER, \
-                options=options)
+        options.add_argument(f"--user-data-dir={self.USER_DATA_DIR}")
+        options.add_argument("--headless=new")  # Run headless
+        options.add_argument("--disable-gpu")
+        options.add_argument("--window-size=1920,1080")
+        options.add_argument(
+            "--disable-blink-features=AutomationControlled"
+        )  # Reduces detection
+        options.add_argument("--password-store=basic")
 
-        unprofiled_driver.get("about:profiles")
-        profile = unprofiled_driver.find_elements_by_tag_name("td")[1].text
-        profile = self.__rchop(profile, "Open Directory")
-        unprofiled_driver.quit()
-        return profile
+        self.__driver = webdriver.Chrome(options=options)
+
+        # NOTE: This is a bad technique even though it works.
+        # Login
+        if not has_user_data:
+            print("Please login to Instagram within 2 minutes and restart the program.")
+            self.__driver.get("https://www.instagram.com")
+            time.sleep(120)
+            sys.exit(0)
+
+        self.__driver.implicitly_wait(10)
+
+    def __del__(self):
+        """
+        Cleanup function.
+        """
+        self.__driver.quit()
 
     def open_chat(self, username: str):
         """
         Find person and open the chat.
         """
-        self.__driver.get("https://www.instagram.com/{}/".format(username))
-        sleep(2)
-        chat = self.__driver.find_element_by_xpath("/html/body/div[1]/div/div[1]/div/div[1]/div/div/div[1]/div[1]/section/main/div/header/section/div[1]/div[1]/div/div[1]/button/div")
+        url = "https://www.instagram.com/" + username
+        self.__driver.get(url)
+        chat = self.__driver.find_element(
+            By.XPATH, "//div[contains(text(), 'Message')]"
+        )
         chat.click()
-        sleep(4)
 
-    def text_person(self, text: str):
-        """
-        Text the person on instagram.
-        """
-        input_area = self.__driver.find_element_by_tag_name("textarea")
-        input_area.send_keys(text)
-        input_area.send_keys(Keys.RETURN)
-
-    def get_message(self) -> str:
+    def get_last_message(self) -> str | None:
         """
         Get the person's last message.
         """
-        try:
-            message = self.__driver.find_elements_by_tag_name("span")[-1].text
-            return message
-        except Exception:
-            pass
-        return ""
+        messages = self.__driver.find_elements(
+            By.CSS_SELECTOR, "div.html-div[dir='auto']"
+        )
+        return messages[-1].text if messages else None
 
-    def stop(self):
+    def send_message(self, message: str):
         """
-        Terminate InstaChat.
+        Send message in the opened chat window on Instagram.
         """
-        self.__driver.quit()
+        textarea = self.__driver.find_element(By.CSS_SELECTOR, "p[dir='auto']")
+        textarea.clear()
+        textarea.send_keys(message + Keys.ENTER)

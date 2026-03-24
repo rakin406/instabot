@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.7
+#!/usr/bin/env python3
 """
 This is an Artificial Intelligence chatbot which talks with people on Instagram.
 Usage: ./bot.py <instagram>
@@ -22,7 +22,7 @@ prev_msg = prev_bot_msg = "Hi, I am a chatbot."
 bot = InstaChat()
 bot.open_chat(sys.argv[1])
 print("Opened chat.")
-bot.text_person(prev_bot_msg)
+bot.send_message(prev_bot_msg)
 
 chatbot = ChatBot("User")
 trainer = ChatterBotCorpusTrainer(chatbot)
@@ -30,15 +30,14 @@ trainer.train("chatterbot.corpus.english")
 
 try:
     while True:
-        message = bot.get_message()
-        bot_message = str(chatbot.get_response(message))
+        message = bot.get_last_message()
 
         # Message must not be the same as last message and it should not be from
         # the chatbot.
-        if message != prev_msg and message != prev_bot_msg:
-            bot.text_person(bot_message)
+        if message and message != prev_msg and message != prev_bot_msg:
+            response = str(chatbot.get_response(message))
+            bot.send_message(response)
             prev_msg = message
-            prev_bot_msg = bot_message
+            prev_bot_msg = response
 except KeyboardInterrupt:
-    bot.stop()
     print("Program stopped")
