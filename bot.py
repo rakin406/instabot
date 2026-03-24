@@ -40,5 +40,4 @@ try:
             prev_msg = message
             prev_bot_msg = bot_message
 except KeyboardInterrupt:
-    bot.stop()
     print("Program stopped")

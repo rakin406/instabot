@@ -33,6 +33,12 @@ class InstaChat:
         self.__driver = webdriver.Chrome(options=options)
         self.__driver.implicitly_wait(10)
 
+    def __del__(self):
+        """
+        Cleanup function.
+        """
+        self.__driver.quit()
+
     def open_chat(self, username: str):
         """
         Find person and open the chat.
@@ -58,12 +64,6 @@ class InstaChat:
         """
         messages = self.__driver.find_elements_by_tag_name("span")
         return messages[-1].text if messages else None
-
-    def stop(self):
-        """
-        Terminate InstaChat.
-        """
-        self.__driver.quit()
 
     def __get_user_data_dir(self) -> str | None:
         os_name = platform.system()
