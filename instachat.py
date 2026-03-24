@@ -19,18 +19,18 @@ class InstaChat:
 
         # Set Chromium options
         options = Options()
-        options.add_argument(f"--user-data-dir={user_data_dir}")
-        options.add_argument("--profile-directory=Default")
+        options.add_argument(f"--user-data-dir={self.USER_DATA_DIR}")
         # options.add_argument("--headless=new")  # Run headless
-        options.add_argument(
-            "--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
-            "(KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
-        )  # Set user agent
+        # options.add_argument(
+        #     "--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+        #     "(KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+        # )  # Set user agent
         options.add_argument("--disable-gpu")
         options.add_argument("--window-size=1920,1080")
         options.add_argument(
             "--disable-blink-features=AutomationControlled"
         )  # Reduces detection
+        options.add_argument("--password-store=basic")
 
         self.__driver = webdriver.Chrome(options=options)
         self.__driver.implicitly_wait(10)
