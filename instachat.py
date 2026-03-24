@@ -4,6 +4,7 @@ import platform
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
 
 
 class InstaChat:
@@ -62,7 +63,7 @@ class InstaChat:
         """
         Get the person's last message.
         """
-        messages = self.__driver.find_elements_by_tag_name("span")
+        messages = driver.find_elements(By.CSS_SELECTOR, "div[dir='auto']")
         return messages[-1].text if messages else None
 
     def __get_user_data_dir(self) -> str | None:
