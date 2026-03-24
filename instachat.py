@@ -46,8 +46,8 @@ class InstaChat:
         """
         url = "https://www.instagram.com/" + username
         self.__driver.get(url)
-        chat = self.__driver.find_element_by_xpath(
-            "/html/body/div[1]/div/div[1]/div/div[1]/div/div/div[1]/div[1]/section/main/div/header/section/div[1]/div[1]/div/div[1]/button/div"
+        chat = self.__driver.find_element(
+            By.XPATH, "//div[contains(text(), 'Message')]"
         )
         chat.click()
 
