@@ -51,20 +51,20 @@ class InstaChat:
         )
         chat.click()
 
-    def send_message(self, message: str):
-        """
-        Send message in the opened chat window on Instagram.
-        """
-        textarea = self.__driver.find_element_by_tag_name("textarea")
-        textarea.clear()
-        textarea.send_keys(message + Keys.ENTER)
-
     def get_last_message(self) -> str | None:
         """
         Get the person's last message.
         """
-        messages = driver.find_elements(By.CSS_SELECTOR, "div[dir='auto']")
+        messages = self.__driver.find_elements(By.CSS_SELECTOR, "div[dir='auto']")
         return messages[-1].text if messages else None
+
+    def send_message(self, message: str):
+        """
+        Send message in the opened chat window on Instagram.
+        """
+        textarea = self.__driver.find_element(By.CSS_SELECTOR, "p[dir='auto']")
+        textarea.clear()
+        textarea.send_keys(message + Keys.ENTER)
 
     def __get_user_data_dir(self) -> str | None:
         os_name = platform.system()
