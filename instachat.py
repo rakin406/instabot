@@ -18,7 +18,7 @@ class InstaChat:
         # Set Chromium options
         options = Options()
         options.add_argument(f"--user-data-dir={user_data_dir}")
-        options.add_argument(f"--profile-directory=Default")
+        options.add_argument("--profile-directory=Default")
         # options.add_argument("--headless=new")  # Run headless
         options.add_argument(
             "--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
