@@ -6,6 +6,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import StaleElementReferenceException
 
 
 class InstaChat:
@@ -66,10 +67,14 @@ class InstaChat:
         """
         Get the person's last message.
         """
-        messages = self.__driver.find_elements(
-            By.CSS_SELECTOR, "div.html-div[dir='auto']"
-        )
-        return messages[-1].text if messages else None
+        try:
+            messages = self.__driver.find_elements(
+                By.CSS_SELECTOR, "div.html-div[dir='auto']"
+            )
+            return messages[-1].text if messages else None
+        except StaleElementReferenceException:
+            # Retry immediately if stale
+            return self.get_last_message()
 
     def send_message(self, message: str):
         """
