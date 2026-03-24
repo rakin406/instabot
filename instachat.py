@@ -1,6 +1,5 @@
 import os
 import platform
-from time import sleep
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -31,19 +30,19 @@ class InstaChat:
             "--disable-blink-features=AutomationControlled"
         )  # Reduces detection
 
-        self.driver = webdriver.Chrome(options=options)
+        self.__driver = webdriver.Chrome(options=options)
+        self.__driver.implicitly_wait(10)
 
     def open_chat(self, username: str):
         """
         Find person and open the chat.
         """
-        self.__driver.get("https://www.instagram.com/{}/".format(username))
-        sleep(2)
+        url = "https://www.instagram.com/" + username
+        self.__driver.get(url)
         chat = self.__driver.find_element_by_xpath(
             "/html/body/div[1]/div/div[1]/div/div[1]/div/div/div[1]/div[1]/section/main/div/header/section/div[1]/div[1]/div/div[1]/button/div"
         )
         chat.click()
-        sleep(4)
 
     def text_person(self, text: str):
         """
