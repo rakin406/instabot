@@ -1,3 +1,5 @@
+import sys
+import time
 from pathlib import Path
 
 from selenium import webdriver
@@ -12,7 +14,10 @@ class InstaChat:
     """
 
     def __init__(self):
+        # TODO: Bulletproof login.
         self.USER_DATA_DIR = ".user-data"
+
+        has_user_data = Path(self.USER_DATA_DIR).is_dir()
 
         # Create user data directory
         Path(self.USER_DATA_DIR).mkdir(parents=True, exist_ok=True)
@@ -20,11 +25,7 @@ class InstaChat:
         # Set Chromium options
         options = Options()
         options.add_argument(f"--user-data-dir={self.USER_DATA_DIR}")
-        # options.add_argument("--headless=new")  # Run headless
-        # options.add_argument(
-        #     "--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
-        #     "(KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
-        # )  # Set user agent
+        options.add_argument("--headless=new")  # Run headless
         options.add_argument("--disable-gpu")
         options.add_argument("--window-size=1920,1080")
         options.add_argument(
@@ -33,6 +34,15 @@ class InstaChat:
         options.add_argument("--password-store=basic")
 
         self.__driver = webdriver.Chrome(options=options)
+
+        # NOTE: This is a bad technique even though it works.
+        # Login
+        if not has_user_data:
+            print("Please login to Instagram within 2 minutes and restart the program.")
+            self.__driver.get("https://www.instagram.com")
+            time.sleep(120)
+            sys.exit(0)
+
         self.__driver.implicitly_wait(10)
 
     def __del__(self):
