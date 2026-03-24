@@ -44,12 +44,13 @@ class InstaChat:
         )
         chat.click()
 
-    def send_message(self, text: str):
+    def send_message(self, message: str):
         """
-        Text the person on instagram.
+        Send message in the opened chat window on Instagram.
         """
-        input_area = self.__driver.find_element_by_tag_name("textarea")
-        input_area.send_keys(text + Keys.ENTER)
+        textarea = self.__driver.find_element_by_tag_name("textarea")
+        textarea.clear()
+        textarea.send_keys(message + Keys.ENTER)
 
     def get_message(self) -> str | None:
         """
