@@ -52,7 +52,7 @@ class InstaChat:
         textarea.clear()
         textarea.send_keys(message + Keys.ENTER)
 
-    def get_message(self) -> str | None:
+    def get_last_message(self) -> str | None:
         """
         Get the person's last message.
         """

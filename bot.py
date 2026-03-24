@@ -30,7 +30,7 @@ trainer.train("chatterbot.corpus.english")
 
 try:
     while True:
-        message = bot.get_message()
+        message = bot.get_last_message()
         bot_message = str(chatbot.get_response(message))
 
         # Message must not be the same as last message and it should not be from
