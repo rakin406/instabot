@@ -32,16 +32,12 @@ try:
     while True:
         message = bot.get_last_message()
 
-        if not message:
-            continue
-
-        bot_message = str(chatbot.get_response(message))
-
         # Message must not be the same as last message and it should not be from
         # the chatbot.
-        if message != prev_msg and message != prev_bot_msg:
-            bot.send_message(bot_message)
+        if message and message != prev_msg and message != prev_bot_msg:
+            response = str(chatbot.get_response(message))
+            bot.send_message(response)
             prev_msg = message
-            prev_bot_msg = bot_message
+            prev_bot_msg = response
 except KeyboardInterrupt:
     print("Program stopped")
