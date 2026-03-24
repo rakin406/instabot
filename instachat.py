@@ -55,7 +55,9 @@ class InstaChat:
         """
         Get the person's last message.
         """
-        messages = self.__driver.find_elements(By.CSS_SELECTOR, "div[dir='auto']")
+        messages = self.__driver.find_elements(
+            By.CSS_SELECTOR, "div.html-div[dir='auto']"
+        )
         return messages[-1].text if messages else None
 
     def send_message(self, message: str):
