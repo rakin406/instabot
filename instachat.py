@@ -1,5 +1,4 @@
-import os
-import platform
+from pathlib import Path
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -13,7 +12,10 @@ class InstaChat:
     """
 
     def __init__(self):
-        user_data_dir = self.__get_user_data_dir()
+        self.USER_DATA_DIR = ".user-data"
+
+        # Create user data directory
+        Path(self.USER_DATA_DIR).mkdir(parents=True, exist_ok=True)
 
         # Set Chromium options
         options = Options()
@@ -66,17 +68,3 @@ class InstaChat:
         textarea = self.__driver.find_element(By.CSS_SELECTOR, "p[dir='auto']")
         textarea.clear()
         textarea.send_keys(message + Keys.ENTER)
-
-    def __get_user_data_dir(self) -> str | None:
-        os_name = platform.system()
-        user_data_dir = None
-
-        # Find user data path
-        if os_name == "Windows":
-            user_data_dir = os.path.expandvars(r"%LOCALAPPDATA%\Chromium\User Data")
-        elif os_name == "Linux":
-            user_data_dir = os.path.expanduser("~/.config/chromium")
-        elif os_name == "Darwin":
-            user_data_dir = os.path.expanduser("~/Library/Application Support/Chromium")
-
-        return user_data_dir
