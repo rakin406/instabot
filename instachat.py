@@ -49,8 +49,7 @@ class InstaChat:
         Text the person on instagram.
         """
         input_area = self.__driver.find_element_by_tag_name("textarea")
-        input_area.send_keys(text)
-        input_area.send_keys(Keys.RETURN)
+        input_area.send_keys(text + Keys.ENTER)
 
     def get_message(self) -> str:
         """
